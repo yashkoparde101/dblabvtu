@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>MySQL Workbench UI Clone</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Segoe UI, Arial, sans-serif;
+    background: #cfcfcf;
+}
+
+/* TOP TOOLBAR */
+.toolbar {
+    height: 38px;
+    background: #e6e6e6;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    border-bottom: 1px solid #aaa;
+    gap: 10px;
+}
+
+.icon {
+    background: white;
+    border: 1px solid #aaa;
+    padding: 3px 8px;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+/* MAIN LAYOUT */
+.container {
+    display: flex;
+    height: calc(100vh - 38px);
+}
+
+/* LEFT NAVIGATOR */
+.sidebar {
+    width: 230px;
+    background: #efefef;
+    border-right: 1px solid #aaa;
+    padding: 10px;
+    font-size: 13px;
+}
+
+.box {
+    background: white;
+    border: 1px solid #ccc;
+    padding: 8px;
+    height: 100%;
+    overflow: auto;
+}
+
+/* RIGHT AREA */
+.right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* SQL TABS */
+.tabs {
+    display: flex;
+    background: #ddd;
+    border-bottom: 1px solid #aaa;
+}
+
+.tab {
+    padding: 6px 12px;
+    border-right: 1px solid #aaa;
+    cursor: pointer;
+    font-size: 13px;
+}
+
+.tab.active {
+    background: white;
+    font-weight: bold;
+}
+
+/* SQL EDITOR */
+.editor {
+    flex: 1;
+    background: white;
+    padding: 10px;
+}
+
+pre {
+    margin: 0;
+    height: 100%;
+    outline: none;
+    white-space: pre-wrap;
+    font-size: 14px;
+}
+
+/* OUTPUT PANEL */
+.output {
+    height: 180px;
+    background: #f5f5f5;
+    border-top: 1px solid #aaa;
+    font-size: 12px;
+    padding: 8px;
+}
+
+.hidden {
+    display: none;
+}
+</style>
+</head>
+
+<body>
+
+<!-- TOP TOOLBAR -->
+<div class="toolbar">
+    <div class="icon">▶ Execute</div>
+    <div class="icon">■ Stop</div>
+    <div class="icon">Commit</div>
+    <div class="icon">Rollback</div>
+</div>
+
+<div class="container">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <div class="box">
+            <b>SCHEMAS</b><br><br>
+            ▸ dbms<br>
+            &nbsp;&nbsp;├ Employee<br>
+            &nbsp;&nbsp;├ Customers<br>
+            &nbsp;&nbsp;├ RollCall<br><br>
+
+            <b>SQL FILES</b><br>
+            ├ p1.sql<br>
+            ├ p2.sql<br>
+            ├ p3.sql<br>
+            ├ p4.sql<br>
+            ├ p5.sql<br>
+            ├ p6.sql<br>
+            ├ p7.sql<br>
+            ├ p8.sql<br>
+        </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="right">
+
+        <!-- TABS -->
+        <div class="tabs">
+            <div class="tab active" onclick="openTab('p1', this)">p1.sql</div>
+            <div class="tab" onclick="openTab('p2', this)">p2.sql</div>
+            <div class="tab" onclick="openTab('p3', this)">p3.sql</div>
+            <div class="tab" onclick="openTab('p4', this)">p4.sql</div>
+            <div class="tab" onclick="openTab('p5', this)">p5.sql</div>
+            <div class="tab" onclick="openTab('p6', this)">p6.sql</div>
+            <div class="tab" onclick="openTab('p7', this)">p7.sql</div>
+            <div class="tab" onclick="openTab('p8', this)">p8.sql</div>
+        </div>
+
+        <!-- SQL EDITOR -->
+        <div class="editor">
+
+<pre id="p1" contenteditable="true">-- p1.sql
+-- Employee Table + User + Privileges
+-- Create database
+CREATE DATABASE 2VX24CS125;
+-- Select the created database
+USE 2VX24CS125;
+-- Create Employee table
+CREATE TABLE Employee (
+    EMPNO INT PRIMARY KEY,
+    ENAME VARCHAR(255),
+    JOB VARCHAR(255),
+    MANAGER_NO INT,
+    SAL DECIMAL(10, 2),
+    COMMISSION DECIMAL(10, 2)
+);
+
+-- Create a new user and grant privileges
+CREATE USER 'new_user'@'localhost' 
+IDENTIFIED BY 'password';
+
+GRANT ALL PRIVILEGES 
+ON your_database_name.* 
+TO 'new_user'@'localhost';
+
+FLUSH PRIVILEGES;
+</pre>
+
+<pre id="p2" class="hidden" contenteditable="true">-- p2.sql
+-- Insert, Update, Delete operations
+-- Create Employee table
+CREATE TABLE Employee (
+    EMPNO INT PRIMARY KEY,
+    ENAME VARCHAR(255),
+    JOB VARCHAR(255),
+    MANAGER_NO INT,
+    SAL DECIMAL(10, 2),
+    COMMISSION DECIMAL(10, 2)
+);
+
+-- Create a new user and grant privileges
+CREATE USER 'new_user'@'localhost' 
+IDENTIFIED BY 'password';
+
+GRANT ALL PRIVILEGES 
+ON your_database_name.* 
+TO 'new_user'@'localhost';
+
+FLUSH PRIVILEGES;
+
+</pre>
+
+<pre id="p3" class="hidden" contenteditable="true">-- p3.sql
+-- Aggregate functions
+-- Create Employee table
+CREATE TABLE Employee (
+    E_id INT PRIMARY KEY,
+    E_name VARCHAR(50),
+    Age INT,
+    Salary DECIMAL(10, 2)
+);
+
+-- Count number of employees
+SELECT COUNT(E_name) AS num_employees
+FROM Employee;
+
+-- Find maximum age
+SELECT MAX(Age) AS max_age
+FROM Employee;
+
+-- Find minimum age
+SELECT MIN(Age) AS min_age
+FROM Employee;
+
+-- Display salaries in ascending order
+SELECT E_name, Salary
+FROM Employee
+ORDER BY Salary ASC;
+
+-- Group employees by salary
+SELECT Salary, COUNT(*) AS num_employees
+FROM Employee
+GROUP BY Salary;
+</pre>
+
+<pre id="p4" class="hidden" contenteditable="true">-- p4.sql
+-- Triggers on Customers table
+-- Create and select database
+CREATE DATABASE dbms;
+USE dbms;
+
+-- Create CUSTOMERS table
+CREATE TABLE customers (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    NAME VARCHAR(100),
+    AGE INT,
+    ADDRESS VARCHAR(255),
+    SALARY DECIMAL(10, 2)
+);
+
+-- Insert sample records
+INSERT INTO customers (NAME, AGE, ADDRESS, SALARY) VALUES
+    ('John Doe', 30, '123 Main St, Anytown, USA', 50000.00),
+    ('Jane Smith', 25, '456 Elm St, Othertown, USA', 60000.00),
+    ('Alice Johnson', 35, '789 Oak St, Anycity, USA', 70000.00),
+    ('Bob Brown', 40, '321 Pine St, Anothercity, USA', 55000.00),
+    ('Emily Davis', 28, '654 Maple St, Somewhere, USA', 65000.00),
+    ('Michael Wilson', 45, '987 Cedar St, Nowhere, USA', 75000.00),
+    ('Sarah Miller', 32, '159 Birch St, Anyplace, USA', 62000.00),
+    ('David Jones', 38, '852 Walnut St, Elsewhere, USA', 68000.00),
+    ('Jennifer Taylor', 27, '753 Cherry St, Elsewhere, USA', 59000.00),
+    ('William Anderson', 33, '369 Oak St, Somewhere, USA', 71000.00);
+
+-- Create log table for salary changes
+CREATE TABLE salary_changes_log (
+    customer_id INT,
+    old_salary DECIMAL(10, 2),
+    new_salary DECIMAL(10, 2),
+    change_time DATETIME
+);
+
+-- Create triggers for INSERT, UPDATE, DELETE
+DELIMITER //
+
+CREATE TRIGGER display_salary_changes_insert
+BEFORE INSERT ON customers
+FOR EACH ROW
+BEGIN
+    INSERT INTO salary_changes_log (customer_id, old_salary, new_salary, change_time)
+    VALUES (NEW.ID, NULL, NEW.SALARY, NOW());
+END//
+
+CREATE TRIGGER display_salary_changes_update
+BEFORE UPDATE ON customers
+FOR EACH ROW
+BEGIN
+    INSERT INTO salary_changes_log (customer_id, old_salary, new_salary, change_time)
+    VALUES (NEW.ID, OLD.SALARY, NEW.SALARY, NOW());
+END//
+
+CREATE TRIGGER display_salary_changes_delete
+BEFORE DELETE ON customers
+FOR EACH ROW
+BEGIN
+    INSERT INTO salary_changes_log (customer_id, old_salary, new_salary, change_time)
+    VALUES (OLD.ID, OLD.SALARY, NULL, NOW());
+END//
+
+DELIMITER ;
+
+-- View triggers
+SHOW TRIGGERS;
+</pre>
+
+<pre id="p5" class="hidden" contenteditable="true">-- p5.sql
+-- Cursor operations
+-- Create database and use it
+CREATE DATABASE employee;
+USE employee;
+
+-- Create Employee table
+CREATE TABLE employee (
+    E_id INT AUTO_INCREMENT PRIMARY KEY,
+    E_name VARCHAR(100),
+    Age INT,
+    Salary DECIMAL(10, 2)
+);
+
+-- Insert sample records
+INSERT INTO employee (E_name, Age, Salary) VALUES
+    ('John Doe', 30, 50000.00),
+    ('Alice Smith', 25, 60000.00),
+    ('Bob Johnson', 35, 70000.00);
+
+-- Create stored procedure using cursor
+DELIMITER //
+
+CREATE PROCEDURE employee_cursor_proc()
+BEGIN
+    -- Declare variables
+    DECLARE done BOOLEAN DEFAULT FALSE;
+    DECLARE emp_id INT;
+    DECLARE emp_name VARCHAR(100);
+    DECLARE emp_age INT;
+    DECLARE emp_salary DECIMAL(10, 2);
+
+    -- Declare cursor
+    DECLARE emp_cursor CURSOR FOR
+        SELECT E_id, E_name, Age, Salary FROM employee;
+
+    -- Handler for end of rows
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+    -- Open cursor
+    OPEN emp_cursor;
+
+    -- Loop through records
+    emp_loop: LOOP
+        FETCH emp_cursor INTO emp_id, emp_name, emp_age, emp_salary;
+
+        IF done THEN
+            LEAVE emp_loop;
+        END IF;
+
+        SELECT CONCAT(
+            'Employee ID: ', emp_id,
+            ', Name: ', emp_name,
+            ', Age: ', emp_age,
+            ', Salary: ', emp_salary
+        ) AS EmployeeInfo;
+
+    END LOOP;
+
+    -- Close cursor
+    CLOSE emp_cursor;
+END//
+
+DELIMITER ;
+
+-- Call procedure
+CALL employee_cursor_proc();
+</pre>
+
+<pre id="p6" class="hidden" contenteditable="true">-- p6.sql
+-- Parameterized cursor merge operation
+-- Create sample Employee table and insert data
+CREATE TABLE Employee (
+    E_id INT AUTO_INCREMENT PRIMARY KEY,
+    E_name VARCHAR(100),
+    Age INT,
+    Salary DECIMAL(10, 2)
+);
+
+INSERT INTO Employee (E_name, Age, Salary) VALUES
+    ('John Doe', 30, 50000.00),
+    ('Jane Smith', 28, 60000.00),
+    ('Michael Johnson', 35, 75000.00);
+
+-- Create procedure to merge data from N_RollCall to O_RollCall using cursor
+DELIMITER //
+
+CREATE PROCEDURE merge_data()
+BEGIN
+    -- Variable declarations
+    DECLARE v_n_rollcall_id INT;
+    DECLARE v_n_rollcall_data VARCHAR(255);
+    DECLARE v_exists INT;
+    DECLARE done BOOLEAN DEFAULT FALSE;
+
+    -- Cursor for N_RollCall table
+    DECLARE n_rollcall_cursor CURSOR FOR
+        SELECT ID, Data FROM N_RollCall;
+
+    -- Handler for end of cursor
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET done = TRUE;
+
+    -- Open cursor
+    OPEN n_rollcall_cursor;
+
+    -- Loop through records
+    n_rollcall_loop: LOOP
+
+        FETCH n_rollcall_cursor 
+        INTO v_n_rollcall_id, v_n_rollcall_data;
+
+        IF done THEN
+            LEAVE n_rollcall_loop;
+        END IF;
+
+        -- Check if record already exists in O_RollCall
+        SELECT COUNT(*)
+        INTO v_exists
+        FROM O_RollCall
+        WHERE Data = v_n_rollcall_data;
+
+        IF v_exists = 0 THEN
+            -- Insert new record if not exists
+            INSERT INTO O_RollCall (ID, Data)
+            VALUES (v_n_rollcall_id, v_n_rollcall_data);
+        END IF;
+
+    END LOOP;
+
+    -- Close cursor
+    CLOSE n_rollcall_cursor;
+END//
+
+DELIMITER ;
+</pre>
+
+<pre id="p7" class="hidden" contenteditable="true">-- p7.sql
+-- MongoDB CRUD operations
+-- Install MongoDB on Ubuntu (Open Source NoSQL Database)
+-- Note: MongoDB is NOT related to MySQL and runs separately
+
+-- Update package index
+sudo apt update
+
+-- Install MongoDB
+sudo apt install -y mongodb
+
+-- Start MongoDB service
+sudo systemctl start mongodb
+
+-- Enable MongoDB on boot
+sudo systemctl enable mongodb
+
+-- Check MongoDB status
+sudo systemctl status mongodb
+
+-- Open MongoDB shell
+mongo
+
+
+-- Create a collection named 'comments'
+db.comments.insert({
+    name: 'Harry',
+    lang: 'JavaScript',
+    member_since: 5
+})
+
+
+-- Insert multiple documents
+db.comments.insertMany([
+    {
+        name: 'Harry',
+        lang: 'JavaScript',
+        member_since: 5
+    },
+    {
+        name: 'Rohan',
+        lang: 'Python',
+        member_since: 3
+    },
+    {
+        name: 'Lovish',
+        lang: 'Java',
+        member_since: 4
+    }
+])
+
+
+-- Read / Find documents
+db.comments.find({ lang: 'Python' })
+
+
+-- Update a document (with upsert)
+db.comments.updateOne(
+    { name: 'Shubham' },
+    {
+        $set: {
+            name: 'Harry',
+            lang: 'JavaScript',
+            member_since: 51
+        }
+    },
+    { upsert: true }
+)
+
+
+-- Rename a field in a document
+db.comments.update(
+    { name: 'Rohan' },
+    {
+        $rename: {
+            member_since: 'member'
+        }
+    }
+)
+
+
+-- Delete a document
+db.comments.remove({ name: 'Harry' })
+</pre>
+
+<pre id="p8" class="hidden" contenteditable="true">-- p8.sql
+-- SQL Commands
+</pre>
+
+        </div>
+
+        <!-- OUTPUT -->
+        <div class="output">
+            <b>Output Panel</b><br>
+            Query results will appear here (Workbench-style output grid area)
+        </div>
+
+    </div>
+</div>
+
+<script>
+function openTab(id, el) {
+    document.querySelectorAll("pre").forEach(p => p.classList.add("hidden"));
+    document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+
+    document.getElementById(id).classList.remove("hidden");
+    el.classList.add("active");
+}
+</script>
+
+</body>
+</html>
