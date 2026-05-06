@@ -188,27 +188,38 @@ FLUSH PRIVILEGES;
 </pre>
 
 <pre id="p2" class="hidden" contenteditable="true">-- p2.sql
--- Insert, Update, Delete operations
--- Create Employee table
+-- 1) Create Employee table
 CREATE TABLE Employee (
-    EMPNO INT PRIMARY KEY,
-    ENAME VARCHAR(255),
-    JOB VARCHAR(255),
-    MANAGER_NO INT,
-    SAL DECIMAL(10, 2),
-    COMMISSION DECIMAL(10, 2)
+    EMPNO INT,
+    ENAME VARCHAR(50),
+    JOB VARCHAR(50),
+    MGR INT,
+    SAL DECIMAL(10, 2)
 );
 
--- Create a new user and grant privileges
-CREATE USER 'new_user'@'localhost' 
-IDENTIFIED BY 'password';
+-- 2) Add COMMISSION column
+ALTER TABLE Employee
+ADD COLUMN COMMISSION DECIMAL(10, 2);
 
-GRANT ALL PRIVILEGES 
-ON your_database_name.* 
-TO 'new_user'@'localhost';
+-- 3) Insert 5 records
+INSERT INTO Employee (EMPNO, ENAME, JOB, MGR, SAL, COMMISSION) VALUES
+(101, 'John Doe', 'Manager', NULL, 5000.00, NULL),
+(102, 'Jane Smith', 'Developer', 101, 4000.00, NULL),
+(103, 'Alice Johnson', 'Designer', 101, 4500.00, NULL),
+(104, 'Bob Brown', 'Analyst', 101, 4200.00, NULL),
+(105, 'Emma Wilson', 'Tester', 102, 3800.00, NULL);
 
-FLUSH PRIVILEGES;
+-- 4) Update JOB column (add "Senior" prefix)
+UPDATE Employee
+SET JOB = CONCAT('Senior ', JOB);
 
+-- 5) Rename column MGR to MANAGER_NO
+ALTER TABLE Employee
+CHANGE COLUMN MGR MANAGER_NO INT;
+
+-- 6) Delete employee with EMPNO = 105
+DELETE FROM Employee
+WHERE EMPNO = 105;
 </pre>
 
 <pre id="p3" class="hidden" contenteditable="true">-- p3.sql
@@ -398,6 +409,7 @@ INSERT INTO Employee (E_name, Age, Salary) VALUES
     ('Michael Johnson', 35, 75000.00);
 
 -- Create procedure to merge data from N_RollCall to O_RollCall using cursor
+DROP PROCEDURE IF EXISTS merge_data;
 DELIMITER //
 
 CREATE PROCEDURE merge_data()
